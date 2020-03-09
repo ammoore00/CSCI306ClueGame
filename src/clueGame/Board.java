@@ -3,15 +3,18 @@ package clueGame;
 import java.util.Map;
 
 public class Board {
+	private static Board instance = new Board();
+	
+	private Board() {
+		
+	}
 
 	public static Board getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return instance;
 	}
 
 	public void setConfigFiles(String string, String string2) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void initialize() {
