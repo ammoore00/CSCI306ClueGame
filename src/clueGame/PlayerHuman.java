@@ -6,13 +6,12 @@ import java.util.Set;
 
 public class PlayerHuman extends Player {
 	private Set<BoardCell> targets;
-	//private Renderer renderer = Renderer.getInstance();
+	private Renderer renderer = Renderer.getInstance();
 	
 	private boolean hasMoved = false;
 
 	public PlayerHuman(String name, Color color) {
 		super(name, color);
-		// TODO Auto-generated constructor stub
 	}
 
 	//Dummy method - will allow for player choice once GUI is added
@@ -42,7 +41,7 @@ public class PlayerHuman extends Player {
 			}
 		}
 		
-		//if(canDisprove) ClueGame.handleDisprove(canDisproveSet);
+		if(canDisprove) ClueGame.handleDisprove(canDisproveSet);
 	}
 	
 	public void disproveSuggestionReturn(Card disproveCard) {
@@ -54,7 +53,7 @@ public class PlayerHuman extends Player {
 		//Gets and draws possible targets on the board
 		board.calcTargets(getRow(), getColumn(), roll);
 		targets = board.getTargets();
-		//renderer.refreshBoard();
+		renderer.refreshBoard();
 	}
 
 	public boolean getHasMoved() {

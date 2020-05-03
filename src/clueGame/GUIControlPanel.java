@@ -89,6 +89,17 @@ public class GUIControlPanel extends JPanel {
 		JButton nextPlayer = new JButton("Next player");
 		JPanel panel = new JPanel();
 		
+		//Adds listener to the button
+		//Logic is held within ClueGame class to follow Single Principle philosophy
+		nextPlayer.addActionListener(new ActionListener()
+		{
+		    @Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        ClueGame.handleNextPlayerButton();
+		    }
+		});
+		
 		//setting the gridlayout here is just to make the button fit the entire cell, serves no actual function
 		panel.setLayout(new GridLayout(1,1));
 		panel.add(nextPlayer);
@@ -98,6 +109,17 @@ public class GUIControlPanel extends JPanel {
 	private JPanel makeAccusationButtonPanel() {
 		JButton makeAccusation = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
+		
+		//Adds listener to the button
+		//Logic is held within ClueGame class to follow Single Principle philosophy
+		makeAccusation.addActionListener(new ActionListener()
+		{
+		    @Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        ClueGame.handleSuggestionButton();
+		    }
+		});
 		
 		//setting the gridlayout here is just to make the button fit the entire cell, serves no actual function
 		panel.setLayout(new GridLayout(1,1));

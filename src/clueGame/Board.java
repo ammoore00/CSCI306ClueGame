@@ -444,6 +444,16 @@ public class Board {
 		}
 	}
 	
+	//Used to clear the board of targets
+	public void resetTargetCells() {
+		for (BoardCell c : targets) {
+			c.setIsPlayerTarget(false);
+		}
+		
+		targets.clear();
+		renderer.refreshBoard();
+	}
+	
 	//Returns the card from the first person able to disprove
 	public Card handleSuggestion(Player suggester, Solution suggestion) {
 		int index = turn + 1;
@@ -685,5 +695,9 @@ public class Board {
 	
 	public PlayerHuman getHuman() {
 		return human;
+	}
+
+	public boolean isHumanTurn() {
+		return turn == 0;
 	}
 }

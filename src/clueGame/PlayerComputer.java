@@ -13,11 +13,10 @@ public class PlayerComputer extends Player {
 	private Set<Card> seenCards;
 	private Set<Card> shownCards;
 	
-	//Renderer renderer = Renderer.getInstance();
+	Renderer renderer = Renderer.getInstance();
 
 	public PlayerComputer(String name, Color color) {
 		super(name, color);
-		// TODO Auto-generated constructor stub
 		seenCards = new HashSet<Card>();
 		shownCards = new HashSet<Card>();
 	}
@@ -33,8 +32,8 @@ public class PlayerComputer extends Player {
 		BoardCell target = chooseTarget(board.getCellAt(getRow(), getColumn()), pathlength);
 		setLocation(target.getRow(), target.getColumn());
 		//Reset before redraw to avoid drawing the targets for computers
-		//board.resetTargetCells();
-		//renderer.refreshBoard();
+		board.resetTargetCells();
+		renderer.refreshBoard();
 	}
 	
 	public BoardCell chooseTarget(BoardCell currLocation, int length) {

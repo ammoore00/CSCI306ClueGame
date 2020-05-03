@@ -97,8 +97,26 @@ public class Renderer {
 		frame.add(gui, BorderLayout.EAST);
 	}
 	
+	public void initializeMakeSuggestionDialog(Card room) {
+		MakeSuggestionDialog dialog = new MakeSuggestionDialog(room);
+		dialog.setVisible(true);
+	}
+	
+	public void initializeDisproveDialog(Set<Card> hand) {
+		DisproveSuggestionDialog dialog = new DisproveSuggestionDialog(hand);
+		dialog.setVisible(true);
+	}
+	
+	public void returnPlayerDisprove(Card disproveCard) {
+		ClueGame.handleDisproveReturn(disproveCard);
+	}
+	
 	public JFrame getFrame() {
 		return frame;
+	}
+	
+	public void refreshBoard() {
+		guiBoard.repaint();
 	}
 	
 	public class WelcomeMessage extends JDialog implements ActionListener {

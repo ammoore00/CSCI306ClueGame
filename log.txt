@@ -1,3 +1,9 @@
+commit 425d36e123f63888adc1d478e9e747b8a2ed7a2f
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 17:42:38 2020 -0600
+
+    Added cards display and welcome message
+
 commit f2466953ef6022343e0f762b117737981f362659
 Author: ammoore00 <abigailmmoore00@gmail.com>
 Date:   Sun May 3 17:33:12 2020 -0600
