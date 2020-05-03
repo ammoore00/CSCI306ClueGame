@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,8 +21,11 @@ public class Board {
 
 	private Map<Character, String> legend = new HashMap<>();
 	private ArrayList<String> roomList = new ArrayList<>();
+	private ArrayList<Card> weaponList = new ArrayList<>();
+	
 	private ArrayList<Player> playerList = new ArrayList<>();
-	private ArrayList<String> weaponList = new ArrayList<>();
+	private ArrayList<PlayerComputer> computerList = new ArrayList<>();
+	private PlayerHuman human;
 	
 	private ArrayList<Card> deck = new ArrayList<>();
 
@@ -39,15 +43,87 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPersonConfig();
+			loadWeaponConfig();
 			calcAdjacencies();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setConfigFiles(String boardFile, String legendFile) {
+	public void setConfigFiles(String boardFile, String legendFile, String playerFile, String weaponFile) {
 		this.boardFile = boardFile;
 		this.legendFile = legendFile;
+		this.playerFile = playerFile;
+		this.weaponFile = weaponFile;
+	}
+
+	//Loads cards into memory
+	public void loadPersonConfig() throws BadConfigFormatException, FileNotFoundException {
+		String filepath = playerFile;
+		
+		//open new input stream to read in personConfigFile
+		BufferedReader reader = new BufferedReader(new FileReader(filepath));
+		String line;
+
+		playerList = new ArrayList<>();
+		computerList = new ArrayList<>();
+
+		try {
+			//Used for error tracking
+			int count = 0;
+
+			//Reads person config
+			while ((line = reader.readLine()) != null) {
+				String[] lineSplit = line.split(", ");
+				String name = lineSplit[0];
+				Color color = stringToColor(lineSplit[1]);
+
+				if (lineSplit[2].trim().equals("Human")) {
+					human = new PlayerHuman(name, color);
+					playerList.add(human);
+					human.setCard(new Card(name, EnumCardType.PERSON));
+				} else if (lineSplit[2].trim().equals("Computer")) {
+					PlayerComputer computer = new PlayerComputer(name, color);
+					playerList.add(computer);
+					computerList.add(computer);
+					computer.setCard(new Card(name, EnumCardType.PERSON));
+				} else {
+					reader.close();
+					throw new BadConfigFormatException("Person entry has bad format on line " + count + ". 3rd entry must be \"Human\" or \"Computer\"");
+				}
+
+				count++;
+			}
+
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (BadPlayerCardAssignmentException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Loads cards into memory
+	public void loadWeaponConfig() throws BadConfigFormatException, FileNotFoundException {
+		String filepath = weaponFile;
+		
+		//open new input stream to read in weaponConfigFile
+		BufferedReader reader = new BufferedReader(new FileReader(filepath));
+		String name;
+
+		weaponList = new ArrayList<>();
+
+		try {
+			//Reads weapon config
+			while ((name = reader.readLine()) != null) {
+				weaponList.add(new Card(name, EnumCardType.WEAPON));
+			}
+
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	//Loads legend into memory
@@ -258,6 +334,58 @@ public class Board {
 		}
 	}
 
+	//Converts string into Color object
+	//Uses java.awt.Color constants, throws error if invalid color
+	public Color stringToColor(String colorName) throws BadConfigFormatException {
+		Color color;
+
+		switch (colorName) {
+		case "BLACK":
+			color = Color.black;
+			break;
+		case "BLUE":
+			color = Color.blue;
+			break;
+		case "CYAN":
+			color = Color.cyan;
+			break;
+		case "DARK_GRAY":
+			color = Color.darkGray;
+			break;
+		case "GRAY":
+			color = Color.gray;
+			break;
+		case "GREEN":
+			color = Color.green;
+			break;
+		case "LIGHT_GRAY":
+			color = Color.lightGray;
+			break;
+		case "MAGENTA":
+			color = Color.magenta;
+			break;
+		case "ORANGE":
+			color = Color.orange;
+			break;
+		case "PINK":
+			color = Color.pink;
+			break;
+		case "RED":
+			color = Color.red;
+			break;
+		case "WHITE":
+			color = Color.white;
+			break;
+		case "YELLOW":
+			color = Color.yellow;
+			break;
+		default:
+			throw new BadConfigFormatException("Invalid color \"" + colorName + "\"");
+		}
+
+		return color;
+	}
+
 	public Map<BoardCell, Set<BoardCell>> getAdjacencyList() {
 		return adjacencyList;
 	}
@@ -298,7 +426,7 @@ public class Board {
 		return playerList;
 	}
 	
-	public ArrayList<String> getWeaponList() {
+	public ArrayList<Card> getWeaponList() {
 		return weaponList;
 	}
 	

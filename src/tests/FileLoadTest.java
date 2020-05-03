@@ -17,7 +17,7 @@ public class FileLoadTest {
 	@Before
 	public void initialize() throws FileNotFoundException, BadConfigFormatException {
 		board = Board.getInstance();
-		board.setConfigFiles("Layout.csv", "Rooms.txt");
+		board.setConfigFiles("Layout.csv", "Rooms.txt", "Players.txt", "Weapons.txt");
 		board.loadRoomConfig();
 		board.loadBoardConfig();
 	}

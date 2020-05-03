@@ -16,7 +16,7 @@ public class AdjacencyAndTargetTests {
 	@Before
 	public void initialize() {
 		board = Board.getInstance();
-		board.setConfigFiles("Layout.csv", "Rooms.txt");
+		board.setConfigFiles("Layout.csv", "Rooms.txt", "Players.txt", "Weapons.txt");
 		board.initialize();
 	}
 	

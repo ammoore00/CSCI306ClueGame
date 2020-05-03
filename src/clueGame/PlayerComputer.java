@@ -1,5 +1,9 @@
 package clueGame;
 
-public class PlayerComputer extends Player {
+import java.awt.Color;
 
+public class PlayerComputer extends Player {
+	public PlayerComputer(String name, Color color) {
+		super(name, color);
+	}
 }

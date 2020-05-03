@@ -7,6 +7,22 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private ArrayList<Card> hand;
+	private Card card;
+	
+	public Player(String name, Color color) {
+		this.name = name;
+		this.color = color;
+	}
+	
+	public void setCard(Card card) throws BadPlayerCardAssignmentException {
+		if (card.getType() != EnumCardType.PERSON)
+			throw new BadPlayerCardAssignmentException("Player cards must be of type PERSON");
+		this.card = card;
+	}
+	
+	public Card getCard() {
+		return card;
+	}
 	
 	public String getName() {
 		return name;

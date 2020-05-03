@@ -21,7 +21,7 @@ public class GameSetupTests {
 	@Before
 	public void initialize() {
 		board = Board.getInstance();
-		board.setConfigFiles("Layout.csv", "Rooms.txt");
+		board.setConfigFiles("Layout.csv", "Rooms.txt", "Players.txt", "Weapons.txt");
 		board.initialize();
 	}
 	
@@ -33,7 +33,7 @@ public class GameSetupTests {
 		//Checks names
 		assert(players.get(0).getName().equals("Captain Holmes"));
 		assert(players.get(1).getName().equals("Doctor Burrows"));
-		assert(players.get(2).getName().equals("Executive Officer Jameson"));
+		assert(players.get(2).getName().equals("XO Jameson"));
 		assert(players.get(3).getName().equals("Engineer Roberts"));
 		assert(players.get(4).getName().equals("Officer Smith"));
 		assert(players.get(5).getName().equals("Commander Ulitsky"));
@@ -56,14 +56,14 @@ public class GameSetupTests {
 	@Test
 	public void weaponTest() {
 		//Makes sure weapons loaded correctly
-		ArrayList<String> weapons = board.getWeaponList();
+		ArrayList<Card> weapons = board.getWeaponList();
 		assertEquals(6, weapons.size());
-		assert(weapons.get(0).equals("Laser Pistol"));
-		assert(weapons.get(1).equals("Knife"));
-		assert(weapons.get(2).equals("Lead Pipe"));
-		assert(weapons.get(3).equals("Mech Suit"));
-		assert(weapons.get(4).equals("Airlock"));
-		assert(weapons.get(5).equals("Teslacoil"));
+		assert(weapons.get(0).getName().equals("Laser Pistol"));
+		assert(weapons.get(1).getName().equals("Knife"));
+		assert(weapons.get(2).getName().equals("Lead Pipe"));
+		assert(weapons.get(3).getName().equals("Mech Suit"));
+		assert(weapons.get(4).getName().equals("Airlock"));
+		assert(weapons.get(5).getName().equals("Teslacoil"));
 	}
 	
 	@Test
