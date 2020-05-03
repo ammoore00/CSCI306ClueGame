@@ -1,14 +1,14 @@
 package clueGame;
 
 public class BoardCell {
-	private int x;
-	private int y;
+	private int row;
+	private int column;
 	private DoorDirection doorDir;
 	private char initial;
 	
 	public BoardCell(int x, int y, char initial) {
-		this.x = x;
-		this.y = y;
+		this.row = x;
+		this.column = y;
 		this.initial = initial;
 	}
 
@@ -30,5 +30,13 @@ public class BoardCell {
 
 	public char getInitial() {
 		return initial;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 }

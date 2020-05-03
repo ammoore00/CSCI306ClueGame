@@ -1,3 +1,75 @@
+commit 14927aa54423a1f3d215fb545a7c5527d8051fa9
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 15:24:05 2020 -0600
+
+    Card dealing tests pass
+
+commit ef46f30c993fe547308c3747f901908456154605
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 15:10:07 2020 -0600
+
+    File load tests pass
+
+commit 76c2b7d6e94c3b037f9ddcff75d8111c570505c1
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 14:50:18 2020 -0600
+
+    Card tests added
+
+commit 58012158d46d6fe71989395771323d1e40a3161b
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 14:43:22 2020 -0600
+
+    File loading tests
+
+commit 14a57fc95ad2c5d6230469b78eb5bb6db10d1410
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 14:18:25 2020 -0600
+
+    Target tests pass
+
+commit f84ce5f947d9b5303223d9e54bf93058dcdcec9b
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 14:02:20 2020 -0600
+
+    Adjacencies working
+
+commit f251e7014d88be38af32d2cecff6fceca113a1f5
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 13:18:14 2020 -0600
+
+    All file load tests pass
+
+commit 4d44453b4176c17fef5053e6479992864c440bd0
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 13:13:55 2020 -0600
+
+    Premade tests pass for file reading
+
+commit 6b8d91c123452d58b11765c22dd684a2bc38b4c4
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 12:58:53 2020 -0600
+
+    Premade tests pass
+
+commit de11e476aefdb6361beb20121a3a8a04c2e053a6
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 12:52:17 2020 -0600
+
+    Initial file loading - some tests pass
+
+commit b59d82754ac54f8ce0029fd161936d188c92b861
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 12:38:55 2020 -0600
+
+    File init tests done
+
+commit e987152e9cd4020ccd1ec7ab67c99854c91a1160
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 12:31:17 2020 -0600
+
+    Code copy from exp
+
 commit c3b2eb7972113b00781ead4fc05a4b9b32894e10
 Author: ammoore00 <abigailmmoore00@gmail.com>
 Date:   Sun May 3 12:25:47 2020 -0600

@@ -29,14 +29,19 @@ public class Board {
 	private PlayerHuman human;
 	
 	private ArrayList<Card> deck = new ArrayList<>();
+	private ArrayList<Card> deckWithoutSolution = new ArrayList<>();
+	
+	private Solution solution;
 
 	private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private BoardCell[][] board;
+	
+	private int turn;
 
-	int numRows;
-	int numColumns;
+	private int numRows;
+	private int numColumns;
 
 	private Board() {}
 
@@ -52,6 +57,7 @@ public class Board {
 
 		calcAdjacencies();
 		setupDeck();
+		solution = new Solution();
 		deal();
 	}
 
@@ -277,10 +283,21 @@ public class Board {
 	public void deal() {
 		ArrayList<Card> deckShuffle = shuffleDeck();
 		
+		//Makes solution
+		for (Card c : deckShuffle) {
+			if (c.getType() == EnumCardType.PERSON && solution.getPerson() == null)
+				solution.setPerson(c);
+			if (c.getType() == EnumCardType.WEAPON && solution.getWeapon() == null)
+				solution.setWeapon(c);
+			if (c.getType() == EnumCardType.ROOM && solution.getRoom() == null)
+				solution.setRoom(c);
+		}
+		
+		//Deals to players
 		for (Player p : playerList) {
-			p.addToHand(deckShuffle.remove(0));
-			p.addToHand(deckShuffle.remove(0));
-			p.addToHand(deckShuffle.remove(0));
+			p.addCard(deckShuffle.remove(0));
+			p.addCard(deckShuffle.remove(0));
+			p.addCard(deckShuffle.remove(0));
 		}
 	}
 	
@@ -301,6 +318,111 @@ public class Board {
 		}
 		
 		return deckShuffle;
+	}
+	
+	//Calculates deck without solution
+	//Precomputed to avoid unnecessary recalculation
+	public void findDeckWithoutSolution() {
+		deckWithoutSolution = new ArrayList<>();
+		
+		for (Card c : deck)
+			if (!solution.contains(c))
+				deckWithoutSolution.add(c);
+	}
+	
+	/*
+	 * Methods to assist with tests
+	 */
+	//Returns the deck minus the solution
+	public ArrayList<Card> getDeckNoSolution() {
+		return deckWithoutSolution;
+	}
+	
+	//Returns the deck minus a specific solution
+	public ArrayList<Card> getDeckNoSolution(Solution s) {
+		ArrayList<Card> tempDeck = new ArrayList<>();
+		
+		for (Card c : deck)
+			if (!s.contains(c))
+				tempDeck.add(c);
+		
+		return tempDeck;
+	}
+	
+	//Returns a random solution with no correct elements
+	public Solution findIncorrectSolution() {
+		Solution incorrect = new Solution();
+		
+		boolean solutionHasPerson = false;
+		boolean solutionHasWeapon = false;
+		boolean solutionHasRoom = false;
+
+		Random rand = new Random();
+
+		ArrayList<Card> tempDeck = new ArrayList<>();
+
+		for (Card c : deckWithoutSolution) {
+			tempDeck.add(c);
+		}
+
+		while (tempDeck.size() > 0) {
+			int index = rand.nextInt(tempDeck.size());
+
+			Card nextCard = tempDeck.get(index);
+
+			if (!solutionHasPerson && nextCard.getType() == EnumCardType.PERSON) {
+				incorrect.setPerson(nextCard);
+				solutionHasPerson = true;
+			} else if (!solutionHasWeapon && nextCard.getType() == EnumCardType.WEAPON) {
+				incorrect.setWeapon(nextCard);
+				solutionHasWeapon = true;
+			} else if (!solutionHasRoom && nextCard.getType() == EnumCardType.ROOM) {
+				incorrect.setRoom(nextCard);
+				solutionHasRoom = true;
+			} else if (incorrect.isComplete()) {
+				break;
+			}
+
+			tempDeck.remove(index);
+		}
+		
+		return incorrect;
+	}
+	
+	//Returns the card from the first person able to disprove
+	public Card handleSuggestion(Player suggester, Solution suggestion) {
+		int index = turn + 1;
+		
+		while (index != turn) {
+			Player player = playerList.get(index);
+			//Returns card from first person able to disprove, unless only the suggester is left, where it returns null
+			//Also prioritizes computer players over human by only returning the player's disprove if the loop gets back to the suggester without a computer disproving, and the human was not the suggester
+			if (player.canDisprove(suggestion)) {
+				if (!player.equals(suggester) && !(player instanceof PlayerHuman)) 
+					return player.disproveSuggestion(suggestion);
+				else if (playerList.get(0).canDisprove(suggestion) && !playerList.get(0).equals(suggester)) {
+					return playerList.get(0).disproveSuggestion(suggestion);
+				}
+				else
+					return null;
+			}
+			
+			index++;
+			
+			if (index >= playerList.size())
+				index = 0;
+		}
+		
+		//If nobody could disprove
+		return null;
+	}
+	
+	public boolean testAccusation(Solution accusation) {
+		boolean isSamePerson = accusation.getPerson() == solution.getPerson();
+		boolean isSameWeapon = accusation.getWeapon() == solution.getWeapon();
+		boolean isSameRoom = accusation.getRoom() == solution.getRoom();
+
+		return isSamePerson && isSameWeapon && isSameRoom;
 	}
 	
 	public void calcAdjacencies() {
@@ -376,7 +498,7 @@ public class Board {
 			if (cell.getInitial() == 'W' || cell.isDoorway()) {
 				//visited.add(cell);
 
-				if (pathLength == 1) {
+				if (pathLength == 1 || cell.isDoorway()) {
 					targets.add(cell);
 				}
 				else {
@@ -438,6 +560,13 @@ public class Board {
 		return color;
 	}
 
+	public Card getCardByName(String name) {
+		for (Card c : deck)
+			if (c.getName().equals(name))
+				return c;
+		return null;
+	}
+
 	public Map<BoardCell, Set<BoardCell>> getAdjacencyList() {
 		return adjacencyList;
 	}
@@ -484,5 +613,27 @@ public class Board {
 	
 	public ArrayList<Card> getDeck() {
 		return deck;
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+	
+	public Player getPlayer(String name) {
+		for (Player p : playerList)
+			if (p.getName().contentEquals(name))
+				return p;
+		return null;
+	}
+	
+	public Player getPlayer(Card card) {
+		for (Player p : playerList)
+			if (p.getName().contentEquals(card.getName()))
+				return p;
+		return null;
+	}
+	
+	public void setTurn(int turn) {
+		this.turn = turn;
 	}
 }
