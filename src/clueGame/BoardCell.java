@@ -3,7 +3,7 @@ package clueGame;
 public class BoardCell {
 	private int x;
 	private int y;
-	
+	private DoorDirection doorDir;
 	private char initial;
 	
 	public BoardCell(int x, int y, char initial) {
@@ -15,9 +15,13 @@ public class BoardCell {
 	public boolean isDoorway() {
 		return false;
 	}
+	
+	public void setDoorDirection(DoorDirection dir) {
+		this.doorDir = dir;
+	}
 
-	public Object[] getDoorDirection() {
-		return null;
+	public DoorDirection getDoorDirection() {
+		return doorDir;
 	}
 
 	public char getInitial() {
