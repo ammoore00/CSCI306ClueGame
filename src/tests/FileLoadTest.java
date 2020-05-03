@@ -18,8 +18,8 @@ public class FileLoadTest {
 	public void initialize() throws FileNotFoundException, BadConfigFormatException {
 		board = Board.getInstance();
 		board.setConfigFiles("Layout.csv", "Rooms.txt");
-		board.loadBoardConfig();
 		board.loadRoomConfig();
+		board.loadBoardConfig();
 	}
 	
 	@Test
@@ -33,12 +33,12 @@ public class FileLoadTest {
 	@Test
 	public void testDoors() {
 		//Doors of each direction
-		assert(board.getCellAt(4, 5).isDoorway());
-		assertEquals(board.getCellAt(4, 5).getDoorDirection(), DoorDirection.DOWN);
-		assert(board.getCellAt(10, 14).isDoorway());
-		assertEquals(board.getCellAt(10, 14).getDoorDirection(), DoorDirection.LEFT);
-		assert(board.getCellAt(8, 18).isDoorway());
-		assertEquals(board.getCellAt(8, 18).getDoorDirection(), DoorDirection.UP);
+		assert(board.getCellAt(5, 4).isDoorway());
+		assertEquals(board.getCellAt(5, 4).getDoorDirection(), DoorDirection.DOWN);
+		assert(board.getCellAt(14, 10).isDoorway());
+		assertEquals(board.getCellAt(14, 10).getDoorDirection(), DoorDirection.LEFT);
+		assert(board.getCellAt(18, 8).isDoorway());
+		assertEquals(board.getCellAt(18, 8).getDoorDirection(), DoorDirection.UP);
 		assert(board.getCellAt(15, 15).isDoorway());
 		assertEquals(board.getCellAt(15, 15).getDoorDirection(), DoorDirection.RIGHT);
 		
@@ -56,13 +56,13 @@ public class FileLoadTest {
 			}
 		}
 		
-		assertEquals(numDoors, 11);
+		assertEquals(numDoors, 12);
 	}
 	
 	@Test
 	public void testCellInitials() {
-		assert(board.getCellAt(0, 20).getInitial() == 'O');
-		assert(board.getCellAt(8, 11).getInitial() == 'L');
-		assert(board.getCellAt(19, 12).getInitial() == 'S');
+		assert(board.getCellAt(20, 0).getInitial() == 'O');
+		assert(board.getCellAt(11, 8).getInitial() == 'L');
+		assert(board.getCellAt(12, 19).getInitial() == 'S');
 	}
 }

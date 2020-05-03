@@ -147,7 +147,7 @@ public class Board {
 						break;
 					default:
 						//Code gets here if there is an unrecogized secondary character
-						//throw new BadConfigFormatException("Invalid secondary character " + doorDir + " at " + i + ", " + j);
+						throw new BadConfigFormatException("Invalid secondary character " + doorDir + " at " + i + ", " + j);
 					}
 
 					board[i][j].setDoorDirection(direction);
