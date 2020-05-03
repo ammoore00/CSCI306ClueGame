@@ -13,7 +13,7 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		return false;
+		return doorDir != null && doorDir != DoorDirection.NONE;
 	}
 	
 	public void setDoorDirection(DoorDirection dir) {

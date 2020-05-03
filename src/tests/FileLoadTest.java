@@ -2,9 +2,12 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.DoorDirection;
 
@@ -12,8 +15,11 @@ public class FileLoadTest {
 	Board board;
 	
 	@Before
-	public void initialize() {
+	public void initialize() throws FileNotFoundException, BadConfigFormatException {
 		board = Board.getInstance();
+		board.setConfigFiles("Layout.csv", "Rooms.txt");
+		board.loadBoardConfig();
+		board.loadRoomConfig();
 	}
 	
 	@Test

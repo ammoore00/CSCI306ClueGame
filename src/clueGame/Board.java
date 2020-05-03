@@ -16,8 +16,8 @@ public class Board {
 	private String legendFile;
 	private String boardFile;
 
-	private Map<Character, String> legend;
-	private ArrayList<String> roomList;
+	private Map<Character, String> legend = new HashMap<>();
+	private ArrayList<String> roomList = new ArrayList<>();
 
 	private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
 	private Set<BoardCell> targets;
@@ -28,6 +28,15 @@ public class Board {
 	int numColumns;
 
 	private Board() {}
+
+	public void initialize() {
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+		} catch (FileNotFoundException | BadConfigFormatException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void setConfigFiles(String boardFile, String legendFile) {
 		this.boardFile = boardFile;
@@ -86,6 +95,9 @@ public class Board {
 		try {
 			//Reads csv file for rooms into 2D array
 			while ((line = reader.readLine()) != null) {
+				if (line.charAt(0) == 'ï')
+					line = line.substring(3);
+				
 				String[] lineSplit = line.split(",");
 				boardChars.add(lineSplit);
 			}
@@ -118,7 +130,7 @@ public class Board {
 				if (cellStr.length() > 1) {
 					char secondChar = cellStr.charAt(1);
 					char doorDir = secondChar;
-					DoorDirection direction;
+					DoorDirection direction = DoorDirection.NONE;
 
 					switch (doorDir) {
 					case 'U':
@@ -135,7 +147,7 @@ public class Board {
 						break;
 					default:
 						//Code gets here if there is an unrecogized secondary character
-						throw new BadConfigFormatException("Invalid secondary character");
+						//throw new BadConfigFormatException("Invalid secondary character " + doorDir + " at " + i + ", " + j);
 					}
 
 					board[i][j].setDoorDirection(direction);
@@ -148,7 +160,7 @@ public class Board {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				if (!legend.containsKey(board[i][j].getInitial())) {
-					throw new BadConfigFormatException("The board contains a room that is not present in the legend");
+					throw new BadConfigFormatException("The board contains a room that is not present in the legend at location " + i + ", " + j + " with initial " + board[i][j].getInitial());
 				}
 			}
 		}
@@ -209,12 +221,11 @@ public class Board {
 	}
 
 	public int getNumRows() {
-		return 0;
+		return numRows;
 	}
 
 	public int getNumColumns() {
-		// TODO Auto-generated method stub
-		return 0;
+		return numColumns;
 	}
 
 	public BoardCell getCellAt(int x, int y) {
@@ -222,8 +233,7 @@ public class Board {
 	}
 
 	public Map<Character, String> getLegend() {
-		// TODO Auto-generated method stub
-		return null;
+		return legend;
 	}
 
 	public ArrayList<String> getRoomList() {
