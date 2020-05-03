@@ -24,7 +24,7 @@ public class IntBoardTests {
 	public void testAdjacencies() {
 		//Top Left
 		BoardCellExp cell = board.getCell(0, 0);
-		Map<BoardCellExp, Set<BoardCellExp>> adjacencyList = board.getAdjacencyList();
+		Map<BoardCellExp, ArrayList<BoardCellExp>> adjacencyList = board.getAdjacencyList();
 		assertTrue(adjacencyList.get(cell).size() == 2);
 		assertTrue(adjacencyList.get(cell).contains(board.getCell(0, 1)));
 		assertTrue(adjacencyList.get(cell).contains(board.getCell(1, 0)));
