@@ -415,7 +415,33 @@ public class Board {
 	}
 	
 	public void nextTurn() {
+		//Cycles player turns
+		turn++;
+		if (turn == playerList.size())
+			turn = 0;
 		
+		Player player = playerList.get(turn);
+		
+		renderer.updateTurn(playerList.get(turn).getName());
+		
+		Random rand = new Random();
+		int roll = rand.nextInt(6) + 1;
+		renderer.updateRoll(roll);
+		player.makeMove(roll);
+		
+		BoardCell currentCell = getCellAt(player.getRow(), player.getColumn());
+		
+		Solution suggestion = null;
+		
+		if(currentCell.isRoom()) {
+			if (player instanceof PlayerComputer) {
+				suggestion = ((PlayerComputer) player).createSuggestion();
+			}
+		}
+		
+		if (suggestion != null) {
+			handleSuggestion(player, suggestion);
+		}
 	}
 	
 	//Returns the card from the first person able to disprove
@@ -655,5 +681,9 @@ public class Board {
 	
 	public void setTurn(int turn) {
 		this.turn = turn;
+	}
+	
+	public PlayerHuman getHuman() {
+		return human;
 	}
 }

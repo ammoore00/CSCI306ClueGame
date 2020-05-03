@@ -57,8 +57,18 @@ public class Renderer {
 		initializeMenuBar();
 		initializeControlGUI();
 		initializeBoardGUI();
+		initializeCardsGUI();
 		
-		frame.setVisible(true);
+		//create new welcome message
+		WelcomeMessage message = new WelcomeMessage();
+	}
+	
+	public void updateTurn(String turn) {
+		guiControlPanel.updateTurn(turn);
+	}
+	
+	public void updateRoll(int roll) {
+		guiControlPanel.updateRoll(roll);
 	}
 	
 	private void initializeMenuBar() {
@@ -82,7 +92,48 @@ public class Renderer {
 		frame.add(guiBoard);
 	}
 	
+	private void initializeCardsGUI() {
+		GUICards gui = new GUICards();
+		frame.add(gui, BorderLayout.EAST);
+	}
+	
 	public JFrame getFrame() {
 		return frame;
+	}
+	
+	public class WelcomeMessage extends JDialog implements ActionListener {
+		PlayerHuman player;
+		Board board = Board.getInstance();
+		
+		public WelcomeMessage () {
+			setTitle("Welcome to Clue");
+			setSize(400, 200);
+			setLayout(new GridLayout(2,1));
+			
+			player = board.getHuman();
+			
+			JLabel announcePlayer = new JLabel("You are " + player.getName() + " , press Next Player to begin play");
+			JPanel announcement = new JPanel();
+			announcement.add(announcePlayer);
+			
+			JButton ok = new JButton("OK");
+			ok.addActionListener(this);
+			JPanel okPanel = new JPanel();
+			okPanel.add(ok);
+			
+			this.add(announcement);
+			this.add(okPanel);
+			
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+			this.setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//Makes frame containing the game show up when the welcome message is dismissed
+			frame.setVisible(true);
+			this.dispose();
+		}
 	}
 }

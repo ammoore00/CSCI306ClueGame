@@ -1,3 +1,15 @@
+commit f2466953ef6022343e0f762b117737981f362659
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 17:33:12 2020 -0600
+
+    All board display functions working
+
+commit 8f8b30ceaa4763aeb538acebef2a54b5a0b59860
+Author: ammoore00 <abigailmmoore00@gmail.com>
+Date:   Sun May 3 17:04:59 2020 -0600
+
+    Added control GUI
+
 commit 8b8111d922b000f16c0486f198c8da0d8b9121d2
 Author: ammoore00 <abigailmmoore00@gmail.com>
 Date:   Sun May 3 16:50:08 2020 -0600
