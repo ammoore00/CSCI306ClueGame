@@ -15,9 +15,15 @@ public class Board {
 
 	private String legendFile;
 	private String boardFile;
+	private String playerFile;
+	private String weaponFile;
 
 	private Map<Character, String> legend = new HashMap<>();
 	private ArrayList<String> roomList = new ArrayList<>();
+	private ArrayList<Player> playerList = new ArrayList<>();
+	private ArrayList<String> weaponList = new ArrayList<>();
+	
+	private ArrayList<Card> deck = new ArrayList<>();
 
 	private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
 	private Set<BoardCell> targets;
@@ -286,5 +292,17 @@ public class Board {
 
 	public ArrayList<String> getRoomList() {
 		return roomList;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		return playerList;
+	}
+	
+	public ArrayList<String> getWeaponList() {
+		return weaponList;
+	}
+	
+	public ArrayList<Card> getDeck() {
+		return deck;
 	}
 }

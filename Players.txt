@@ -1,0 +1,6 @@
+Captain Holmes, BLUE, Human
+Doctor Burrows, GREEN, Computer
+XO Jameson, YELLOW, Computer
+Engineer Roberts, ORANGE, Computer
+Officer Smith, RED, Computer
+Commander Ulitsky, MAGENTA, Computer
