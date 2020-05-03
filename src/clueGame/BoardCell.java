@@ -39,4 +39,8 @@ public class BoardCell {
 	public int getColumn() {
 		return column;
 	}
+
+	public boolean isRoom() {
+		return !isDoorway() && !isWalkway();
+	}
 }

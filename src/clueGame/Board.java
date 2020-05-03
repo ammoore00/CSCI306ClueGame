@@ -14,6 +14,7 @@ import java.util.Set;
 
 public class Board {
 	private static Board instance = new Board();
+	private Renderer renderer = Renderer.getInstance();
 
 	private String legendFile;
 	private String boardFile;
@@ -392,6 +393,10 @@ public class Board {
 		}
 		
 		return incorrect;
+	}
+	
+	public void nextTurn() {
+		
 	}
 	
 	//Returns the card from the first person able to disprove
