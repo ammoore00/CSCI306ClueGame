@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class Board {
@@ -45,10 +46,13 @@ public class Board {
 			loadBoardConfig();
 			loadPersonConfig();
 			loadWeaponConfig();
-			calcAdjacencies();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+
+		calcAdjacencies();
+		setupDeck();
+		deal();
 	}
 
 	public void setConfigFiles(String boardFile, String legendFile, String playerFile, String weaponFile) {
@@ -79,6 +83,7 @@ public class Board {
 				String name = lineSplit[0];
 				Color color = stringToColor(lineSplit[1]);
 
+				//Assigns player type
 				if (lineSplit[2].trim().equals("Human")) {
 					human = new PlayerHuman(name, color);
 					playerList.add(human);
@@ -100,6 +105,7 @@ public class Board {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (BadPlayerCardAssignmentException e) {
+			//If for some reason a player was assigned a card of the wrong type
 			e.printStackTrace();
 		}
 	}
@@ -254,16 +260,62 @@ public class Board {
 		}
 	}
 
+	public void setupDeck() {
+		for (String s : roomList) {
+			deck.add(new Card(s, EnumCardType.ROOM));
+		}
+		
+		for (Player p : playerList) {
+			deck.add(p.getCard());
+		}
+		
+		for (Card c : weaponList) {
+			deck.add(c);
+		}
+	}
+	
+	public void deal() {
+		ArrayList<Card> deckShuffle = shuffleDeck();
+		
+		for (Player p : playerList) {
+			p.addToHand(deckShuffle.remove(0));
+			p.addToHand(deckShuffle.remove(0));
+			p.addToHand(deckShuffle.remove(0));
+		}
+	}
+	
+	public ArrayList<Card> shuffleDeck() {
+		ArrayList<Card> deckShuffle = new ArrayList<>();
+		ArrayList<Card> deckCopy = new ArrayList<>();
+		Random rand = new Random();
+		
+		for (Card c : deck) {
+			deckCopy.add(c);
+		}
+		
+		//Shuffles deck by randomly removing cards from the deck copy and placing them into the shuffled deck
+		while (!deckCopy.isEmpty()) {
+			int index = rand.nextInt(deckCopy.size());
+			deckShuffle.add(deckCopy.get(index));
+			deckCopy.remove(index);
+		}
+		
+		return deckShuffle;
+	}
+	
 	public void calcAdjacencies() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
 				Set<BoardCell> list = new HashSet<>();
 
+				//If it is a room then no adjacencies
 				if (board[i][j].isDoorway() || board[i][j].isWalkway()) {
+					//Bounds check and checks to only leave doorway in its direction
 					if (i > 0 && (!board[i][j].isDoorway() || board[i][j].getDoorDirection() == DoorDirection.UP)) {
 						BoardCell cell = board[i - 1][j];
 						if (cell.isWalkway())
 							list.add(cell);
+						//Only enter a doorway in its direction
 						else if (cell.isDoorway() && cell.getDoorDirection() == DoorDirection.DOWN)
 							list.add(cell);
 					}

@@ -12,6 +12,11 @@ public abstract class Player {
 	public Player(String name, Color color) {
 		this.name = name;
 		this.color = color;
+		this.hand = new ArrayList<>();
+	}
+	
+	public void addToHand(Card c) {
+		hand.add(c);
 	}
 	
 	public void setCard(Card card) throws BadPlayerCardAssignmentException {
