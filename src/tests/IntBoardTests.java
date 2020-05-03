@@ -68,13 +68,15 @@ public class IntBoardTests {
 		BoardCellExp cell = board.getCell(0,  0);
 		board.calcTargets(cell, 1);
 		Set<BoardCellExp> targets = board.getTargets();
+		assertTrue(targets.size() == 2);
 		assertTrue(targets.contains(board.getCell(1, 0)));
 		assertTrue(targets.contains(board.getCell(0, 1)));
 		
 		//Bottom Right - 3 steps
 		cell = board.getCell(3,  3);
-		board.calcTargets(cell, 1);
+		board.calcTargets(cell, 3);
 		targets = board.getTargets();
+		assertTrue(targets.size() == 6);
 		assertTrue(targets.contains(board.getCell(0, 3)));
 		assertTrue(targets.contains(board.getCell(1, 2)));
 		assertTrue(targets.contains(board.getCell(2, 1)));

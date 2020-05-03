@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class IntBoardExp {
 	private Map<BoardCellExp, Set<BoardCellExp>> adjacencyList = new HashMap<>();
 	private Set<BoardCellExp> targets;
+	private Set<BoardCellExp> visited;
 	private BoardCellExp[][] board;
 	
 	public IntBoardExp(int size) {
@@ -44,7 +45,26 @@ public class IntBoardExp {
 	}
 	
 	public void calcTargets(BoardCellExp startCell, int pathLength) {
+		targets = new HashSet<>();
+		visited = new HashSet<>();
 		
+		calcTargets_do(startCell, pathLength);
+	}
+	
+	//Recursive call
+	public void calcTargets_do(BoardCellExp startCell, int pathLength) {
+		for (BoardCellExp cell : adjacencyList.get(startCell)) {
+			if (!visited.contains(cell)) {
+				//visited.add(cell);
+				
+				if (pathLength == 1) {
+					targets.add(cell);
+				}
+				else {
+					calcTargets_do(cell, pathLength - 1);
+				}
+			}
+		}
 	}
 	
 	public BoardCellExp getCell(int x, int y) {
