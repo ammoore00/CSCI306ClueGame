@@ -14,7 +14,6 @@ public class FileLoadTest {
 	@Before
 	public void initialize() {
 		board = Board.getInstance();
-		board.initialize();
 	}
 	
 	@Test

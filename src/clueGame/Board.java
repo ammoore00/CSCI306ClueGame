@@ -34,10 +34,6 @@ public class Board {
 		this.legendFile = legendFile;
 	}
 
-	public void initialize() {
-		
-	}
-
 	//Loads legend into memory
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		String filepath = legendFile;
@@ -106,7 +102,7 @@ public class Board {
 		//check that number of columns is the same for all rows
 		//if not, throw a BadConfigFormatException
 		for (int i = 0; i < numRows; i++) {
-			if (boardChars.get(0).length != numColumns) {
+			if (boardChars.get(i).length != numColumns) {
 				throw new BadConfigFormatException("The number of columns is not the same for all rows.");
 			}
 		}
