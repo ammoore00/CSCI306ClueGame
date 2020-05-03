@@ -1,13 +1,6 @@
 package clueGame;
 
 public class BoardCell {
-	private int x;
-	private int y;
-	
-	public BoardCell(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
 
 	public boolean isDoorway() {
 		// TODO Auto-generated method stub
