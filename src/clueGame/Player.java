@@ -1,10 +1,12 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public abstract class Player {
-	String name;
-	Color color;
+	private String name;
+	private Color color;
+	private ArrayList<Card> hand;
 	
 	public String getName() {
 		return name;
@@ -12,5 +14,9 @@ public abstract class Player {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public ArrayList<Card> getHand() {
+		return hand;
 	}
 }

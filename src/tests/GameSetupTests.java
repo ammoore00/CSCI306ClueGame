@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.EnumCardType;
 import clueGame.Player;
 import clueGame.PlayerComputer;
 import clueGame.PlayerHuman;
@@ -67,9 +69,17 @@ public class GameSetupTests {
 	@Test
 	public void cardTest() {
 		//Makes sure cards loaded correctly
+		ArrayList<Card> deck = board.getDeck();
+		assertEquals(21, deck.size());
+		//Checks for cards of each type
+		assert(deck.get(0).getType() == EnumCardType.ROOM);
+		assert(deck.get(9).getType() == EnumCardType.PERSON);
+		assert(deck.get(15).getType() == EnumCardType.WEAPON);
 		
-		
-		//Makes sure cards were dealt correctly
-		
+		//Makes all players have the correct number of cards
+		ArrayList<Player> players = board.getPlayers();
+		for (Player p : players) {
+			assertEquals(3, p.getHand().size());
+		}
 	}
 }
