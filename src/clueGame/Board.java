@@ -33,6 +33,7 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			calcAdjacencies();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +47,7 @@ public class Board {
 	//Loads legend into memory
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		String filepath = legendFile;
-		
+
 		//open new input stream to read in legendConfigFile
 		BufferedReader reader = new BufferedReader(new FileReader(filepath));
 		String line;
@@ -85,7 +86,7 @@ public class Board {
 	//Loads board into memory
 	public void loadBoardConfig() throws BadConfigFormatException, FileNotFoundException {
 		String filepath = boardFile;
-		
+
 		//open input stream to read boardConfigFile
 		BufferedReader reader = new BufferedReader(new FileReader(filepath));
 		String line;
@@ -97,7 +98,7 @@ public class Board {
 			while ((line = reader.readLine()) != null) {
 				if (line.charAt(0) == 'ï')
 					line = line.substring(3);
-				
+
 				String[] lineSplit = line.split(",");
 				boardChars.add(lineSplit);
 			}
@@ -129,28 +130,33 @@ public class Board {
 
 				if (cellStr.length() > 1) {
 					char secondChar = cellStr.charAt(1);
-					char doorDir = secondChar;
-					DoorDirection direction = DoorDirection.NONE;
 
-					switch (doorDir) {
-					case 'U':
-						direction = DoorDirection.UP;
-						break;
-					case 'D':
-						direction = DoorDirection.DOWN;
-						break;
-					case 'R':
-						direction = DoorDirection.RIGHT;
-						break;
-					case 'L':
-						direction = DoorDirection.LEFT;
-						break;
-					default:
-						//Code gets here if there is an unrecogized secondary character
-						throw new BadConfigFormatException("Invalid secondary character " + doorDir + " at " + i + ", " + j);
+					if (secondChar == 'N') {
+						//board[i][j].setShouldDisplayName(true);
+					} else {
+						char doorDir = secondChar;
+						DoorDirection direction;
+
+						switch (doorDir) {
+						case 'U':
+							direction = DoorDirection.UP;
+							break;
+						case 'D':
+							direction = DoorDirection.DOWN;
+							break;
+						case 'R':
+							direction = DoorDirection.RIGHT;
+							break;
+						case 'L':
+							direction = DoorDirection.LEFT;
+							break;
+						default:
+							//Code gets here if there is an unrecogized secondary character
+							throw new BadConfigFormatException("Invalid secondary character");
+						}
+
+						board[i][j].setDoorDirection(direction);
 					}
-
-					board[i][j].setDoorDirection(direction);
 				}
 			}
 		}
@@ -171,23 +177,61 @@ public class Board {
 			for (int j = 0; j < board[0].length; j++) {
 				Set<BoardCell> list = new HashSet<>();
 
-				if (i > 0)
-					list.add(board[i - 1][j]);
-				if (j > 0)
-					list.add(board[i][j - 1]);
-				if (i < board.length - 1)
-					list.add(board[i + 1][j]);
-				if (j < board[0].length - 1)
-					list.add(board[i][j + 1]);
+				if (board[i][j].isDoorway() || board[i][j].isWalkway()) {
+					if (i > 0) {
+						BoardCell cell = board[i - 1][j];
+						if (cell.isWalkway())
+							list.add(cell);
+						else if (cell.isDoorway() && cell.getDoorDirection() == DoorDirection.DOWN)
+							list.add(cell);
+					}
+
+					if (j > 0) {
+						BoardCell cell = board[i][j - 1];
+						if (cell.isWalkway())
+							list.add(cell);
+						else if (cell.isDoorway() && cell.getDoorDirection() == DoorDirection.RIGHT)
+							list.add(cell);
+					}
+
+					if (i < board.length - 1) {
+						BoardCell cell = board[i + 1][j];
+						if (cell.isWalkway())
+							list.add(cell);
+						else if (cell.isDoorway() && cell.getDoorDirection() == DoorDirection.UP)
+							list.add(cell);
+					}
+
+					if (j < board[0].length - 1) {
+						BoardCell cell = board[i][j + 1];
+						if (cell.isWalkway())
+							list.add(cell);
+						else if (cell.isDoorway() && cell.getDoorDirection() == DoorDirection.LEFT)
+							list.add(cell);
+					}
+				}
 
 				adjacencyList.put(board[i][j], list);
 			}
 		}
 	}
 
+	public void calcTargets(int i, int j, int pathLength) {
+		targets = new HashSet<>();
+		visited = new HashSet<>();
+
+		if (!(board[i][j].getInitial() == 'W' || board[i][j].isDoorway()))
+			return;
+
+		calcTargets_do(board[i][j], pathLength);
+	}
+
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<>();
 		visited = new HashSet<>();
+
+		if (!(startCell.getInitial() == 'W' || startCell.isDoorway()))
+			return;
 
 		calcTargets_do(startCell, pathLength);
 	}
@@ -195,7 +239,7 @@ public class Board {
 	//Recursive call
 	public void calcTargets_do(BoardCell startCell, int pathLength) {
 		for (BoardCell cell : adjacencyList.get(startCell)) {
-			if (!visited.contains(cell)) {
+			if (cell.getInitial() == 'W' || cell.isDoorway()) {
 				//visited.add(cell);
 
 				if (pathLength == 1) {
@@ -210,6 +254,10 @@ public class Board {
 
 	public Map<BoardCell, Set<BoardCell>> getAdjacencyList() {
 		return adjacencyList;
+	}
+
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return adjacencyList.get(board[i][j]);
 	}
 
 	public Set<BoardCell> getTargets() {
@@ -228,8 +276,8 @@ public class Board {
 		return numColumns;
 	}
 
-	public BoardCell getCellAt(int x, int y) {
-		return board[x][y];
+	public BoardCell getCellAt(int i, int j) {
+		return board[i][j];
 	}
 
 	public Map<Character, String> getLegend() {

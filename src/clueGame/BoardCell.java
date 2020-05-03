@@ -16,6 +16,10 @@ public class BoardCell {
 		return doorDir != null && doorDir != DoorDirection.NONE;
 	}
 	
+	public boolean isWalkway() {
+		return initial == 'W';
+	}
+	
 	public void setDoorDirection(DoorDirection dir) {
 		this.doorDir = dir;
 	}
