@@ -7,6 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class GUIMenu extends JMenu {
+	DetectiveNotesDialog notesDialog;
 	JMenu menu;
 	
 	public GUIMenu() {
@@ -40,8 +41,8 @@ public class GUIMenu extends JMenu {
 	
 	class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			notesDialog = new DetectiveNotesDialog();
+			notesDialog.setVisible(true);
 		}
 	}
-	
 }

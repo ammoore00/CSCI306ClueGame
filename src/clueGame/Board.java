@@ -28,6 +28,7 @@ public class Board {
 	private ArrayList<Player> playerList = new ArrayList<>();
 	private ArrayList<PlayerComputer> computerList = new ArrayList<>();
 	private PlayerHuman human;
+	private ArrayList<ArrayList<Integer>> startLocations;
 	
 	private ArrayList<Card> deck = new ArrayList<>();
 	private ArrayList<Card> deckWithoutSolution = new ArrayList<>();
@@ -102,6 +103,17 @@ public class Board {
 				} else {
 					reader.close();
 					throw new BadConfigFormatException("Person entry has bad format on line " + count + ". 3rd entry must be \"Human\" or \"Computer\"");
+				}
+
+				try {
+					ArrayList<Integer> start = startLocations.get(count);
+					playerList.get(count).setLocation(start.get(0), start.get(1));
+				}
+				catch (IndexOutOfBoundsException e) {
+					reader.close();
+					//Intercepts out of bounds exception to give a more detailed exception instead
+					//Done this way instead of bounds checking to alert problem in how the config files are set up
+					throw new BadConfigFormatException("Not enough start locations for number of players. Number of start locations found: " + startLocations.size());
 				}
 
 				count++;
@@ -186,6 +198,7 @@ public class Board {
 		String line;
 
 		ArrayList<String[]> boardChars = new ArrayList<>();
+		startLocations = new ArrayList<>();
 
 		try {
 			//Reads csv file for rooms into 2D array
@@ -225,8 +238,14 @@ public class Board {
 				if (cellStr.length() > 1) {
 					char secondChar = cellStr.charAt(1);
 
-					if (secondChar == 'N') {
-						//board[i][j].setShouldDisplayName(true);
+					if (secondChar == 'N')
+						board[i][j].setShouldDisplayName(true);
+					//Player start location
+					else if (secondChar == 'S') {
+						ArrayList<Integer> start = new ArrayList<Integer>();
+						start.add(i);
+						start.add(j);
+						startLocations.add(start);
 					} else {
 						char doorDir = secondChar;
 						DoorDirection direction;
@@ -248,7 +267,7 @@ public class Board {
 							//Code gets here if there is an unrecogized secondary character
 							throw new BadConfigFormatException("Invalid secondary character");
 						}
-
+						
 						board[i][j].setDoorDirection(direction);
 					}
 				}

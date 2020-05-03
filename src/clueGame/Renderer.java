@@ -32,6 +32,7 @@ public class Renderer {
 	private JMenuBar menuBar;
 	private Board board = Board.getInstance();
 
+	private GUIBoard guiBoard;
 	private GUIControlPanel guiControlPanel;
 	
 	//Singleton pattern
@@ -55,6 +56,7 @@ public class Renderer {
 		//add menuBar to JFrame
 		initializeMenuBar();
 		initializeControlGUI();
+		initializeBoardGUI();
 		
 		frame.setVisible(true);
 	}
@@ -72,6 +74,12 @@ public class Renderer {
 	private void initializeControlGUI() {
 		guiControlPanel = new GUIControlPanel();
 		frame.add(guiControlPanel, BorderLayout.PAGE_END);
+	}
+	
+	private void initializeBoardGUI() {
+		guiBoard = new GUIBoard();
+		guiBoard.addMouseListener(guiBoard);
+		frame.add(guiBoard);
 	}
 	
 	public JFrame getFrame() {

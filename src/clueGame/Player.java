@@ -25,12 +25,12 @@ public abstract class Player {
 	
 	public abstract void makeMove(int roll);
 	
-	/*public void draw(Graphics g, int drawX, int drawY) {
+	public void draw(Graphics g, int drawX, int drawY) {
 		int size = GUIBoard.GRID_SIZE - GUIBoard.BORDER_SIZE;
 		
 		g.setColor(this.color);
 		g.fillOval(drawX + GUIBoard.BORDER_SIZE, drawY + GUIBoard.BORDER_SIZE, size, size);
-	}*/
+	}
 	
 	public boolean canDisprove(Solution suggestion) {
 		Set<Card> solutionSet = suggestion.getAllCardsAsSet();
