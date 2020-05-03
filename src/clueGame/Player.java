@@ -2,7 +2,6 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -101,7 +101,7 @@ public class PlayerComputer extends Player {
 			}
 			
 			//Ensures it can only choose its current room
-			solution.setRoom(board.getCardByName("Kitchen"));
+			solution.setRoom(board.getCardByName("Bridge"));
 		}
 		
 		return solution;

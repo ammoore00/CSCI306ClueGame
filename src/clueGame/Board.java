@@ -35,7 +35,6 @@ public class Board {
 
 	private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
 	private Set<BoardCell> targets;
-	private Set<BoardCell> visited;
 	private BoardCell[][] board;
 	
 	private int turn;
@@ -284,13 +283,19 @@ public class Board {
 		ArrayList<Card> deckShuffle = shuffleDeck();
 		
 		//Makes solution
-		for (Card c : deckShuffle) {
-			if (c.getType() == EnumCardType.PERSON && solution.getPerson() == null)
-				solution.setPerson(c);
-			if (c.getType() == EnumCardType.WEAPON && solution.getWeapon() == null)
-				solution.setWeapon(c);
-			if (c.getType() == EnumCardType.ROOM && solution.getRoom() == null)
-				solution.setRoom(c);
+		for (int i = 0; i < deckShuffle.size(); i++) {
+			if (deckShuffle.get(i).getType() == EnumCardType.PERSON && solution.getPerson() == null) {
+				solution.setPerson(deckShuffle.get(i));
+				deckShuffle.remove(i);
+			}
+			if (deckShuffle.get(i).getType() == EnumCardType.WEAPON && solution.getWeapon() == null) {
+				solution.setWeapon(deckShuffle.get(i));
+				deckShuffle.remove(i);
+			}
+			if (deckShuffle.get(i).getType() == EnumCardType.ROOM && solution.getRoom() == null) {
+				solution.setRoom(deckShuffle.get(i));
+				deckShuffle.remove(i);
+			}
 		}
 		
 		//Deals to players
@@ -400,11 +405,6 @@ public class Board {
 			if (player.canDisprove(suggestion)) {
 				if (!player.equals(suggester) && !(player instanceof PlayerHuman)) 
 					return player.disproveSuggestion(suggestion);
-				else if (playerList.get(0).canDisprove(suggestion) && !playerList.get(0).equals(suggester)) {
-					return playerList.get(0).disproveSuggestion(suggestion);
-				}
-				else
-					return null;
 			}
 			
 			index++;
@@ -474,7 +474,6 @@ public class Board {
 
 	public void calcTargets(int i, int j, int pathLength) {
 		targets = new HashSet<>();
-		visited = new HashSet<>();
 
 		if (!(board[i][j].getInitial() == 'W' || board[i][j].isDoorway()))
 			return;
@@ -484,7 +483,6 @@ public class Board {
 
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<>();
-		visited = new HashSet<>();
 
 		if (!(startCell.getInitial() == 'W' || startCell.isDoorway()))
 			return;
@@ -496,8 +494,6 @@ public class Board {
 	public void calcTargets_do(BoardCell startCell, int pathLength) {
 		for (BoardCell cell : adjacencyList.get(startCell)) {
 			if (cell.getInitial() == 'W' || cell.isDoorway()) {
-				//visited.add(cell);
-
 				if (pathLength == 1 || cell.isDoorway()) {
 					targets.add(cell);
 				}

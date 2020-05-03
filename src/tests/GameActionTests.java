@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import clueGame.Board;
@@ -18,7 +17,6 @@ import clueGame.PlayerComputer;
 import clueGame.PlayerHuman;
 import clueGame.Solution;
 import clueGame.Card;
-import clueGame.EnumCardType;
 import clueGame.Player;
 
 public class GameActionTests {
@@ -33,14 +31,13 @@ public class GameActionTests {
 
 	@Test
 	public void targetsTest() {
-		Set<BoardCell> targets;
 		PlayerComputer computer = (PlayerComputer) board.getPlayers().get(1);
 		//no possible rooms to enter
 		BoardCell cell = computer.chooseTarget(board.getCellAt(7, 8), 1);
 		Set<BoardCell> validTargets = new HashSet<>();
 		validTargets.add(board.getCellAt(7, 7));
 		validTargets.add(board.getCellAt(8, 8));
-		validTargets.add(board.getCellAt(7, 6));
+		validTargets.add(board.getCellAt(7, 9));
 		validTargets.add(board.getCellAt(6, 8));
 		assertTrue(validTargets.contains(cell));
 		
@@ -120,9 +117,9 @@ public class GameActionTests {
 		PlayerComputer computer = (PlayerComputer) board.getPlayers().get(1);
 		
 		//Makes sure it selects the room it is in
-		computer.setCurrentRoom("Kitchen");
+		computer.setCurrentRoom("Bridge");
 		Solution suggestion = computer.createSuggestion();
-		assertEquals(suggestion.getRoom().getName(), "Kitchen");
+		assertEquals(suggestion.getRoom().getName(), "Bridge");
 		Solution solution = board.getSolution();
 		ArrayList<Card> deck = board.getDeck();
 
@@ -264,9 +261,9 @@ public class GameActionTests {
 		assertEquals(null, board.handleSuggestion(human, humanDisproveSuggestion));
 		
 		//Computer is accuser but human is the only one who can disprove
-		//Uses same suggestion since human is the only one able to disprove again, only changes accuser
+		//Uses same suggestion since human is the only one able to disprove again, only changes suggester
 		board.setTurn(1);
-		assertEquals(disproveCard, board.handleSuggestion(computer, humanDisproveSuggestion));
+		assertEquals(null, board.handleSuggestion(computer, humanDisproveSuggestion));
 		
 		//Three players can disprove, ensures the correct order
 		//Done using three instead of two (per assignment guidelines) to make suggestion assembly easier

@@ -42,7 +42,7 @@ public class PlayerHuman extends Player {
 			}
 		}
 		
-		if(canDisprove) board.handleDisprove(canDisproveSet);
+		//if(canDisprove) board.handleDisprove(canDisproveSet);
 	}
 	
 	public void disproveSuggestionReturn(Card disproveCard) {
