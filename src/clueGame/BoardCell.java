@@ -12,9 +12,9 @@ public class BoardCell {
 		return null;
 	}
 
-	public Object getInitial() {
+	public char getInitial() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 }

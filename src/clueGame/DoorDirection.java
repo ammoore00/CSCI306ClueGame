@@ -4,5 +4,6 @@ public enum DoorDirection {
 	UP,
 	RIGHT,
 	LEFT,
-	DOWN
+	DOWN,
+	NONE
 }
