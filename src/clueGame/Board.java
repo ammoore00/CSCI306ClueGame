@@ -8,12 +8,24 @@ import java.util.Set;
 public class Board {
 	private static Board instance = new Board();
 	
-	private Board() {
-		
-	}private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
+	private String legendFile;
+	private String boardFile;
+	
+	private Map<BoardCell, Set<BoardCell>> adjacencyList = new HashMap<>();
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private BoardCell[][] board;
+	
+	private Board() {}
+
+	public void setConfigFiles(String boardFile, String legendFile) {
+		this.boardFile = boardFile;
+		this.legendFile = legendFile;
+	}
+
+	public void initialize() {
+		
+	}
 	
 	public void calcAdjacencies() {
 		for (int i = 0; i < board.length; i++) {
@@ -67,15 +79,6 @@ public class Board {
 
 	public static Board getInstance() {
 		return instance;
-	}
-
-	public void setConfigFiles(String string, String string2) {
-		// TODO Auto-generated method stub
-	}
-
-	public void initialize() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public int getNumRows() {

@@ -56,6 +56,8 @@ public class FileLoadTest {
 	
 	@Test
 	public void testCellInitials() {
-		
+		assert(board.getCellAt(0, 20).getInitial() == 'O');
+		assert(board.getCellAt(8, 11).getInitial() == 'L');
+		assert(board.getCellAt(19, 12).getInitial() == 'S');
 	}
 }

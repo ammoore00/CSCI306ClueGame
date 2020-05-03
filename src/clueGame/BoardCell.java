@@ -4,24 +4,23 @@ public class BoardCell {
 	private int x;
 	private int y;
 	
-	public BoardCell(int x, int y) {
+	private char initial;
+	
+	public BoardCell(int x, int y, char initial) {
 		this.x = x;
 		this.y = y;
+		this.initial = initial;
 	}
 
 	public boolean isDoorway() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public Object[] getDoorDirection() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public char getInitial() {
-		// TODO Auto-generated method stub
-		return 0;
+		return initial;
 	}
-
 }
