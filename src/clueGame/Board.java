@@ -178,7 +178,7 @@ public class Board {
 				Set<BoardCell> list = new HashSet<>();
 
 				if (board[i][j].isDoorway() || board[i][j].isWalkway()) {
-					if (i > 0) {
+					if (i > 0 && (!board[i][j].isDoorway() || board[i][j].getDoorDirection() == DoorDirection.UP)) {
 						BoardCell cell = board[i - 1][j];
 						if (cell.isWalkway())
 							list.add(cell);
@@ -186,7 +186,7 @@ public class Board {
 							list.add(cell);
 					}
 
-					if (j > 0) {
+					if (j > 0 && (!board[i][j].isDoorway() || board[i][j].getDoorDirection() == DoorDirection.LEFT)) {
 						BoardCell cell = board[i][j - 1];
 						if (cell.isWalkway())
 							list.add(cell);
@@ -194,7 +194,7 @@ public class Board {
 							list.add(cell);
 					}
 
-					if (i < board.length - 1) {
+					if (i < board.length - 1 && (!board[i][j].isDoorway() || board[i][j].getDoorDirection() == DoorDirection.DOWN)) {
 						BoardCell cell = board[i + 1][j];
 						if (cell.isWalkway())
 							list.add(cell);
@@ -202,7 +202,7 @@ public class Board {
 							list.add(cell);
 					}
 
-					if (j < board[0].length - 1) {
+					if (j < board[0].length - 1 && (!board[i][j].isDoorway() || board[i][j].getDoorDirection() == DoorDirection.RIGHT)) {
 						BoardCell cell = board[i][j + 1];
 						if (cell.isWalkway())
 							list.add(cell);
