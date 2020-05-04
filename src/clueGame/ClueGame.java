@@ -1,6 +1,15 @@
 package clueGame;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Set;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class ClueGame {
 	public static Renderer renderer;
@@ -63,6 +72,43 @@ public class ClueGame {
 				Card room = board.getCardByName(roomName);
 				renderer.initializeMakeSuggestionDialog(room);
 			}
+		}
+		else {
+			MoveError error = new MoveError();
+		}
+	}
+	
+	public static class MoveError extends JDialog implements ActionListener {
+		PlayerHuman player;
+		Board board = Board.getInstance();
+		
+		public MoveError () {
+			setTitle("Error");
+			setSize(400, 200);
+			setLayout(new GridLayout(2,1));
+			
+			player = board.getHuman();
+			
+			JLabel message = new JLabel("Invalid move location");
+			JPanel error = new JPanel();
+			error.add(message);
+			
+			JButton ok = new JButton("OK");
+			ok.addActionListener(this);
+			JPanel okPanel = new JPanel();
+			okPanel.add(ok);
+			
+			this.add(error);
+			this.add(okPanel);
+			
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+			this.setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			this.dispose();
 		}
 	}
 }
