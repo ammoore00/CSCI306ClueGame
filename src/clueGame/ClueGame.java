@@ -36,7 +36,11 @@ public class ClueGame {
 	}
 	
 	public static void handleAccusationButton() {
-		
+		new MakeAccusationDialog();
+	}
+	
+	public static void handleAccusationMade(Solution accusation) {
+		boolean result = board.testAccusation(accusation);
 	}
 
 	public static void handleNextPlayerButton() {
@@ -89,7 +93,41 @@ public class ClueGame {
 		PlayerHuman player;
 		Board board = Board.getInstance();
 		
-		public MoveError () {
+		public MoveError() {
+			setTitle("Error");
+			setSize(400, 200);
+			setLayout(new GridLayout(2,1));
+			
+			player = board.getHuman();
+			
+			JLabel message = new JLabel("Invalid move location");
+			JPanel error = new JPanel();
+			error.add(message);
+			
+			JButton ok = new JButton("OK");
+			ok.addActionListener(this);
+			JPanel okPanel = new JPanel();
+			okPanel.add(ok);
+			
+			this.add(error);
+			this.add(okPanel);
+			
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+			this.setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			this.dispose();
+		}
+	}
+	
+	public static class AccusationResult extends JDialog implements ActionListener {
+		PlayerHuman player;
+		Board board = Board.getInstance();
+		
+		public AccusationResult() {
 			setTitle("Error");
 			setSize(400, 200);
 			setLayout(new GridLayout(2,1));

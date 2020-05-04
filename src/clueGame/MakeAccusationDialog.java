@@ -8,37 +8,41 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class MakeSuggestionDialog extends JDialog implements ActionListener {
+public class MakeAccusationDialog extends JDialog implements ActionListener {
 	Board board = Board.getInstance();
 
 	private ArrayList<Player> players = board.getPlayers();
 	private ArrayList<Card> weapons = board.getWeaponList();
+	private ArrayList<String> rooms = board.getRoomList();
 	
 	private JComboBox personSelection;
 	private JComboBox weaponSelection;
-	private Card room;
+	private JComboBox roomSelection;
 
-	public MakeSuggestionDialog(Card room) {
+	public MakeAccusationDialog() {
 		setTitle("Make a Guess");
 		setSize(400, 600);
 		setLayout(new GridLayout(4, 2));
-
-		this.room = room;
 		
 		add(roomLabel());
-		add(roomPanel(room));
+		add(roomGuessPanel());
 		add(personLabel());
 		add(personGuessPanel());
 		add(weaponLabel());
 		add(weaponGuessPanel());
 		add(submitGuessPanel());
 		add(cancelPanel());
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		this.setVisible(true);
 	}
 
 	private JPanel roomLabel() {
@@ -62,12 +66,20 @@ public class MakeSuggestionDialog extends JDialog implements ActionListener {
 		return weaponPanel;
 	}
 
-	private JPanel roomPanel(Card room) {
-		JPanel roomPanel = new JPanel();
-		JTextField roomName = new JTextField(room.getName());
-		roomName.setEditable(false);
-		roomPanel.add(roomName);
-		return roomPanel;
+	private JPanel roomGuessPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+		panel.setLayout(new GridLayout(1, 1));
+
+		roomSelection = new JComboBox<String>();
+
+		for (Player p : players) {
+			roomSelection.addItem(p.getName());
+		}
+
+		panel.add(roomSelection);
+
+		return panel;
 	}
 
 	private JPanel personGuessPanel() {
@@ -134,9 +146,9 @@ public class MakeSuggestionDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getActionCommand().equals("Submit")) {
-			Solution suggestion = getSuggestionFromSelection();
-			if (suggestion.isComplete()) {
-				ClueGame.handleSuggestionButton(suggestion);
+			Solution accusation = getSuggestionFromSelection();
+			if (accusation.isComplete()) {
+				ClueGame.handleAccusationMade(accusation);
 				this.dispose();
 			}
 		}
@@ -147,7 +159,7 @@ public class MakeSuggestionDialog extends JDialog implements ActionListener {
 	public Solution getSuggestionFromSelection() {
 		Solution suggestion = new Solution();
 		
-		suggestion.setRoom(room);
+		suggestion.setRoom(board.getCardByName((String) roomSelection.getSelectedItem()));
 		suggestion.setPerson(board.getCardByName((String) personSelection.getSelectedItem()));
 		suggestion.setWeapon(board.getCardByName((String) weaponSelection.getSelectedItem()));
 		
