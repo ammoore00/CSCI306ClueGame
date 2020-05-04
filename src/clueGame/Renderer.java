@@ -75,6 +75,10 @@ public class Renderer {
 		guiControlPanel.updateGuess(guess);
 	}
 	
+	public void updateDisprove(Card result) {
+		guiControlPanel.updateDisprove(result);
+	}
+	
 	private void initializeMenuBar() {
 		//create menu object
 		GUIMenu menu = new GUIMenu();

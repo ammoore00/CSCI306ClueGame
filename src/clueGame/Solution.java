@@ -67,7 +67,7 @@ public class Solution {
 		String weaponName = weapon.getName();
 		String roomName = room.getName();
 		
-		return "Person: " + personName + ", Weapon: " + weaponName + ", Room: " + roomName;
+		return "Person: " + personName + ", \nWeapon: " + weaponName + ", \nRoom: " + roomName;
 	}
 	
 	public boolean isComplete() {

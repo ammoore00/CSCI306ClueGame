@@ -458,6 +458,8 @@ public class Board {
 	//Returns the card from the first person able to disprove
 	public Card handleSuggestion(Player suggester, Solution suggestion) {
 		int index = turn + 1;
+		if (index >= playerList.size())
+			index = 0;
 		
 		while (index != turn) {
 			Player player = playerList.get(index);
@@ -472,6 +474,10 @@ public class Board {
 			
 			if (index >= playerList.size())
 				index = 0;
+		}
+		
+		if (suggester != human) {
+			human.disproveSuggestion(suggestion);
 		}
 		
 		//If nobody could disprove

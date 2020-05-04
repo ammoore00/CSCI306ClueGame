@@ -61,6 +61,7 @@ public class PlayerComputer extends Player {
 			suggestedPlayer.setLocation(this.getRow(), this.getColumn());
 			
 			Card result = board.handleSuggestion(this, suggestion);
+			renderer.updateDisprove(result);
 			
 			//If no one disproved then it is ready for accusation and remembers that suggestion (Computer cannot make suggestion with card in its hand)
 			if (result == null) {
