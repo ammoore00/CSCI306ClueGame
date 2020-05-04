@@ -34,7 +34,10 @@ public class PlayerComputer extends Player {
 	public void makeMove(int pathlength) {
 		//Make an accusation at the start of its turn
 		if (readyForAccusation) {
+			//Tests accusation then passes to ClueGame for handling
 			boolean result = board.testAccusation(accusation);
+			ClueGame.handleComputerAccusation(this, result);
+			readyForAccusation = false;
 		}
 		
 		BoardCell target = chooseTarget(board.getCellAt(getRow(), getColumn()), pathlength);
