@@ -66,7 +66,7 @@ public class BoardCell {
 		switch (initial) {
 		case 'W':
 			return Color.WHITE;
-		case 'X':
+		case 'T':
 			return Color.RED;
 		default:
 			return Color.GRAY;

@@ -68,9 +68,27 @@ public class GUIBoard extends JPanel implements MouseListener{
 			 p.draw(g, x, y);
 		 }
 	}
+	
+	//Converts display coordinates into board coordinates and returns the appropriate cell
+	private BoardCell getCoordsAsBoardLoc(int x, int y) {
+		int cellRow = (y - OFFSET) / GRID_SIZE;
+		int cellColumn = (x - OFFSET) / GRID_SIZE;
+		
+		//Board panel is technically larger than the board displayed
+		//This checks to make sure the click was actually on a cell
+		if (cellRow < board.getNumRows() && cellColumn < board.getNumColumns() && cellRow > 0 && cellColumn > 0)
+			return board.getCellAt(cellRow, cellColumn);
+		return null;
+	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
+		int x  = event.getX();
+		int y = event.getY();
+		
+		BoardCell clickedCell = getCoordsAsBoardLoc(x, y);
+		
+		ClueGame.handleBoardClick(clickedCell);
 	}
 
 	/*

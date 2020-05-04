@@ -39,7 +39,8 @@ public class Board {
 	private Set<BoardCell> targets;
 	private BoardCell[][] board;
 	
-	private int turn;
+	//Done because of initial call from ClueGame to nextTurn()
+	private int turn = -1;
 
 	private int numRows;
 	private int numColumns;
@@ -556,6 +557,7 @@ public class Board {
 			if (cell.getInitial() == 'W' || cell.isDoorway()) {
 				if (pathLength == 1 || cell.isDoorway()) {
 					targets.add(cell);
+					cell.setIsPlayerTarget(true);
 				}
 				else {
 					calcTargets_do(cell, pathLength - 1);
