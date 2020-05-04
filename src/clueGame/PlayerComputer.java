@@ -14,6 +14,9 @@ public class PlayerComputer extends Player {
 	private Set<Card> shownCards;
 	
 	Renderer renderer = Renderer.getInstance();
+	
+	private boolean readyForAccusation = false;
+	private Solution accusation;
 
 	public PlayerComputer(String name, Color color) {
 		super(name, color);
@@ -29,11 +32,33 @@ public class PlayerComputer extends Player {
 
 	@Override
 	public void makeMove(int pathlength) {
+		//Make an accusation at the start of its turn
+		if (readyForAccusation) {
+			boolean result = board.testAccusation(accusation);
+		}
+		
 		BoardCell target = chooseTarget(board.getCellAt(getRow(), getColumn()), pathlength);
 		setLocation(target.getRow(), target.getColumn());
 		//Reset before redraw to avoid drawing the targets for computers
 		board.resetTargetCells();
 		renderer.refreshBoard();
+		
+		//Makes a suggestion if it is in a room
+		if (currentRoom != null) {
+			Solution suggestion = createSuggestion();
+			
+			
+			Card result = board.handleSuggestion(this, suggestion);
+			
+			//If no one disproved then it is ready for accusation and remembers that suggestion (Computer cannot make suggestion with card in its hand)
+			if (result == null) {
+				readyForAccusation = true;
+				accusation = suggestion;
+			}
+			else {
+				seenCards.add(result);
+			}
+		}
 	}
 	
 	public BoardCell chooseTarget(BoardCell currLocation, int length) {

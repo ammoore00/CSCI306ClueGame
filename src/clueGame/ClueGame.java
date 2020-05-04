@@ -25,6 +25,7 @@ public class ClueGame {
 		renderer = Renderer.getInstance();
 		renderer.initialize();
 		
+		//Board handles updating control panel info
 		board.nextTurn();
 	}
 

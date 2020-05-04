@@ -41,7 +41,7 @@ public class PlayerHuman extends Player {
 			}
 		}
 		
-		//if(canDisprove) ClueGame.handleDisprove(canDisproveSet);
+		if(canDisprove) ClueGame.handleDisprove(canDisproveSet);
 	}
 	
 	public void disproveSuggestionReturn(Card disproveCard) {
