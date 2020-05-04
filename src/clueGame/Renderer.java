@@ -71,6 +71,10 @@ public class Renderer {
 		guiControlPanel.updateRoll(roll);
 	}
 	
+	public void updateGuess(String guess) {
+		guiControlPanel.updateGuess(guess);
+	}
+	
 	private void initializeMenuBar() {
 		//create menu object
 		GUIMenu menu = new GUIMenu();

@@ -73,6 +73,15 @@ public class GUIControlPanel extends JPanel {
 		}
 	}
 	
+	public void updateGuess(String guess) {
+		Component[] components = guessPanel.getComponents();
+		for (Component c : components) {
+			if (c instanceof JTextField) {
+				((JTextField) c).setText(guess);
+			}
+		}
+	}
+	
 	private JPanel whoseTurnPanel() {
 		JPanel panel = new JPanel();
 		JLabel whoseTurnLabel = new JLabel("Whose Turn?");

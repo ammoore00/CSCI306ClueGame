@@ -43,10 +43,22 @@ public class PlayerComputer extends Player {
 		board.resetTargetCells();
 		renderer.refreshBoard();
 		
+		//Sets the current room
+		if (board.getCellAt(this.getRow(), this.getColumn()).isDoorway()) {
+			currentRoom = board.getLegend().get(board.getCellAt(this.getRow(), this.getColumn()).getInitial());
+		}
+		else {
+			currentRoom = null;
+		}
+		
 		//Makes a suggestion if it is in a room
 		if (currentRoom != null) {
 			Solution suggestion = createSuggestion();
+			renderer.updateGuess(suggestion.toString());
 			
+			//Gets player in the suggestion and moves them to the room
+			Player suggestedPlayer = board.getPlayer(suggestion.getPerson());
+			suggestedPlayer.setLocation(this.getRow(), this.getColumn());
 			
 			Card result = board.handleSuggestion(this, suggestion);
 			
