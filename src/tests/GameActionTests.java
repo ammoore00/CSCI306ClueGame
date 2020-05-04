@@ -27,6 +27,7 @@ public class GameActionTests {
 		board = Board.getInstance();
 		board.setConfigFiles("Layout.csv", "Rooms.txt", "Players.txt", "Weapons.txt");
 		board.initialize();
+		board.setTurn(0);
 	}
 
 	@Test

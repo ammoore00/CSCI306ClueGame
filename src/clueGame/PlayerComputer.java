@@ -81,7 +81,7 @@ public class PlayerComputer extends Player {
 		boolean solutionHasWeapon = false;
 		
 		//While solution incomplete
-		while ((solution.getPerson() == null || solution.getWeapon() == null || solution.getRoom() == null) && deck.size() > 0) {
+		while ((solution.getPerson() == null || solution.getWeapon() == null) && deck.size() > 0) {
 			int index = rand.nextInt(deck.size());
 			
 			//Randomly chooses a card to add for person or weapon
@@ -98,10 +98,10 @@ public class PlayerComputer extends Player {
 				solution.setWeapon(nextCard);
 				solutionHasWeapon = true;
 			}
-			
-			//Ensures it can only choose its current room
-			solution.setRoom(board.getCardByName(currentRoom));
 		}
+		
+		//Ensures it can only choose its current room
+		solution.setRoom(board.getCardByName(currentRoom));
 		
 		return solution;
 	}
