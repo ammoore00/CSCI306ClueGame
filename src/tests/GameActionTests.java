@@ -264,7 +264,7 @@ public class GameActionTests {
 		//Computer is accuser but human is the only one who can disprove
 		//Uses same suggestion since human is the only one able to disprove again, only changes suggester
 		board.setTurn(1);
-		assertEquals(null, board.handleSuggestion(computer, humanDisproveSuggestion));
+		assertEquals(disproveCard, board.handleSuggestion(computer, humanDisproveSuggestion));
 		
 		//Three players can disprove, ensures the correct order
 		//Done using three instead of two (per assignment guidelines) to make suggestion assembly easier

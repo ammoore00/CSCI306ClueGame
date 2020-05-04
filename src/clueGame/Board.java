@@ -477,7 +477,7 @@ public class Board {
 		}
 		
 		if (suggester != human) {
-			human.disproveSuggestion(suggestion);
+			return human.disproveSuggestion(suggestion);
 		}
 		
 		//If nobody could disprove

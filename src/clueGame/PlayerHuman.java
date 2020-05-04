@@ -17,12 +17,15 @@ public class PlayerHuman extends Player {
 	//Dummy method - will allow for player choice once GUI is added
 	@Override
 	public Card disproveSuggestion(Solution suggestion) {
-		// TODO Add player choice
 		Set<Card> solutionSet = suggestion.getAllCardsAsSet();
+		System.out.println(suggestion);
 		
 		for (Card c : hand) {
-			if (solutionSet.contains(c))
+			System.out.println(c.getName());
+			if (solutionSet.contains(c)) {
+				System.out.println("Disprove");
 				return c;
+			}
 		}
 		
 		return null;
