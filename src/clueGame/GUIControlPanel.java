@@ -136,7 +136,7 @@ public class GUIControlPanel extends JPanel {
 		    @Override
 		    public void actionPerformed(ActionEvent e)
 		    {
-		        ClueGame.handleSuggestionButton();
+		        ClueGame.handleAccusationButton();
 		    }
 		});
 		

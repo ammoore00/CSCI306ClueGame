@@ -29,7 +29,13 @@ public class ClueGame {
 		board.nextTurn();
 	}
 
-	public static void handleSuggestionButton() {
+	public static void handleSuggestionButton(Solution suggestion) {
+		renderer.updateGuess(suggestion.toString());
+		Card result = board.handleSuggestion(board.getHuman(), suggestion);
+		renderer.updateDisprove(result);
+	}
+	
+	public static void handleAccusationButton() {
 		
 	}
 
